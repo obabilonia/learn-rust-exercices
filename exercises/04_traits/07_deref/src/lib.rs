@@ -12,13 +12,23 @@ pub struct Ticket {
 
 impl Ticket {
     pub fn title(&self) -> &str {
-        todo!()
+        self.title.trim()
     }
 
     pub fn description(&self) -> &str {
-        todo!()
+        self.description.trim()
     }
 }
+
+// impl Ticket {
+//     pub fn title(&self) -> String {
+//         self.title.split_whitespace().collect::<Vec<_>>().join(" ")
+//     }
+
+//     pub fn description(&self) -> String {
+//         self.description.split_whitespace().collect::<Vec<_>>().join(" ")
+//     }
+// }
 
 #[cfg(test)]
 mod tests {
