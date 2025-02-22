@@ -1,5 +1,6 @@
 // TODO: Convert the `Ticket::new` method to return a `Result` instead of panicking.
 //   Use `String` as the error type.
+use std::fmt;
 
 #[derive(Debug, PartialEq)]
 struct Ticket {
@@ -15,26 +16,48 @@ enum Status {
     Done,
 }
 
+// #[derive(Debug)]
+// pub enum TicketError {
+//     EmptyTitle,
+//     LenTitle,
+//     EmptyDescription,
+//     LenDescription
+// }
+
+// impl fmt::Display for TicketError {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         match self {
+//             TicketError::EmptyTitle => write!(f, ),
+//             TicketError::LenTitle => write!(f, ),
+//             TicketError::EmptyDescription => write!(f, ),
+//             TicketError::LenDescription => write!(f, ),
+//           //  TicketError::OtherError(msg) => write!(f, "Erro: {}", msg),
+//         }
+//     }
+// }
+
 impl Ticket {
-    pub fn new(title: String, description: String, status: Status) -> Ticket {
+    pub fn new(title: String, description: String, status: Status) -> Result<Ticket, String> {
         if title.is_empty() {
-            panic!("Title cannot be empty");
+            return Err("Title cannot be empty".into());
         }
         if title.len() > 50 {
-            panic!("Title cannot be longer than 50 bytes");
+            return Err("Title cannot be longer than 50 bytes".into());
         }
         if description.is_empty() {
-            panic!("Description cannot be empty");
+            return Err("Description cannot be empty".into());
         }
         if description.len() > 500 {
-            panic!("Description cannot be longer than 500 bytes");
+            return Err("Description cannot be longer than 500 bytes".into());
         }
 
-        Ticket {
-            title,
-            description,
-            status,
-        }
+        Ok(
+            Ticket {
+                title,
+                description,
+                status,
+            }
+        )
     }
 }
 
