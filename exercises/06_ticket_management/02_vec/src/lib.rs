@@ -15,7 +15,32 @@ pub fn fibonacci(n: u32) -> u32 {
     //
     // Hint: use a `Vec` to memoize the results you have already calculated
     // so that you don't have to recalculate them several times.
-    todo!()
+//    if n == 0 { 
+//        0
+//    }
+//    else if n == 1 { 
+//        1
+//    }
+//    else { 
+//        fibonacci(n-1) + fibonacci(n-2) 
+//    }
+
+    let mut aux_v: Vec<u32> = Vec::new();
+    if n == 0 { 
+        aux_v.push(0);
+    }
+    else if n == 1 { 
+        aux_v.push(0);
+        aux_v.push(1);
+    }
+    else {
+        aux_v.push(0);
+        aux_v.push(1);
+        for i in 2u32..n+1 {
+            aux_v.push(aux_v[(i - 2) as usize] + aux_v[(i - 1) as usize]);
+        }
+    }
+    aux_v.last().copied().unwrap()
 }
 
 #[cfg(test)]
