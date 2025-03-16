@@ -15,7 +15,30 @@
 use std::thread;
 
 pub fn sum(v: Vec<i32>) -> i32 {
-    todo!()
+
+    if v.is_empty() {
+        return 0;
+    }
+
+    let num_threads = 4;
+    let chunk_size = (v.len() + num_threads - 1) / num_threads;
+    let mut handles = vec![];
+
+    for chunk in v.chunks(chunk_size) {
+        let chunk = chunk.to_vec(); // Clonando para evitar problemas de posse
+        let handle = thread::spawn(move || {
+            chunk.iter().sum::<i32>() // Soma parcial
+        });
+        handles.push(handle);
+    }
+
+
+    let total: i32 = handles.into_iter()
+        .map(|h| h.join().unwrap())
+        .sum();
+
+    total
+
 }
 
 #[cfg(test)]
