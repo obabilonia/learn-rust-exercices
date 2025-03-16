@@ -4,7 +4,27 @@
 use std::thread;
 
 pub fn sum(slice: &'static [i32]) -> i32 {
-    todo!()
+
+    if slice.is_empty() {
+        return 0;
+    }
+
+    let num_threads = 2;
+    let chunk_size = (slice.len() + num_threads - 1) / num_threads;
+    let mut handles = vec![];
+
+    for chunk in slice.chunks(chunk_size) {
+        let handle = thread::spawn(move || {
+            chunk.iter().sum::<i32>() // Soma parcial
+        });
+        handles.push(handle);
+    }
+    let total: i32 = handles.into_iter()
+    .map(|h| h.join().unwrap())
+    .sum();
+
+    total
+
 }
 
 #[cfg(test)]
